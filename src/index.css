@@ -47,11 +47,18 @@
     box-sizing: border-box;
 }
 
+html {
+    min-height: 100%;
+    background: var(--bg-app);
+}
+
 body {
     margin: 0;
     padding: 0;
     background: var(--bg-app);
     color: var(--text-primary);
+    min-height: 100vh;
+    background-attachment: fixed;
 }
 
 button {
