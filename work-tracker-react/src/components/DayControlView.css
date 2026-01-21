@@ -1,0 +1,108 @@
+.day-control {
+    margin: 20px 0;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.day-control-date {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    text-align: center;
+    color: #333;
+    text-transform: capitalize;
+}
+
+.day-control-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.weekend-info {
+    background: rgba(158, 158, 158, 0.15);
+    color: #666;
+}
+
+.holiday-info {
+    background: rgba(255, 152, 0, 0.15);
+    color: #F57C00;
+}
+
+.info-emoji {
+    font-size: 24px;
+    margin-right: 12px;
+}
+
+.day-control-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 12px;
+}
+
+.day-control-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    font-weight: 500;
+    color: #666;
+}
+
+.day-control-button:hover {
+    border-color: #bbb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.button-emoji {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.day-control-button.active {
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.day-control-button.active.office {
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+}
+
+.day-control-button.active.remote {
+    background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+}
+
+.day-control-button.active.dayoff {
+    background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+}
+
+@media (max-width: 768px) {
+    .day-control-buttons {
+        grid-template-columns: 1fr;
+    }
+
+    .day-control-button {
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+
+    .button-emoji {
+        margin-bottom: 0;
+        margin-right: 12px;
+    }
+}

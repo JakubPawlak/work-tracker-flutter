@@ -1,0 +1,104 @@
+.app {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.app-header {
+    background: white;
+    padding: 16px 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.settings-icon {
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    transition: transform 0.2s ease;
+}
+
+.settings-icon:hover {
+    transform: rotate(90deg);
+}
+
+.app-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    color: #333;
+}
+
+.today-button {
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
+}
+
+.today-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
+}
+
+.app-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.month-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.nav-button {
+    font-size: 28px;
+    background: none;
+    border: none;
+    color: #2196F3;
+    cursor: pointer;
+    padding: 8px 16px;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+}
+
+.nav-button:hover {
+    background: rgba(33, 150, 243, 0.1);
+    transform: scale(1.1);
+}
+
+.month-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+    color: #333;
+}
+
+@media (max-width: 768px) {
+    .app-content {
+        padding: 16px;
+    }
+
+    .app-title {
+        font-size: 20px;
+    }
+
+    .month-title {
+        font-size: 18px;
+    }
+}

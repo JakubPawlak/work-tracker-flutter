@@ -1,0 +1,97 @@
+.calendar-view {
+  width: 100%;
+}
+
+.calendar-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  margin-bottom: 10px;
+}
+
+.calendar-header-day {
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  color: #666;
+  padding: 4px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.day-cell {
+  aspect-ratio: 1;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  padding: 4px;
+}
+
+.day-cell:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.day-cell-empty {
+  aspect-ratio: 1;
+}
+
+.day-number {
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.day-emoji {
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+/* Background colors */
+.day-cell-office {
+  background-color: rgba(33, 150, 243, 0.2);
+}
+
+.day-cell-remote {
+  background-color: rgba(76, 175, 80, 0.2);
+}
+
+.day-cell-dayoff {
+  background-color: rgba(255, 152, 0, 0.2);
+}
+
+.day-cell-weekend {
+  background-color: rgba(158, 158, 158, 0.2);
+}
+
+/* Border styles */
+.day-cell-selected {
+  border: 2px solid #2196F3 !important;
+}
+
+.day-cell-today {
+  border: 1px solid #FF9800 !important;
+}
+
+.day-cell-today .day-number {
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .day-number {
+    font-size: 12px;
+  }
+  
+  .day-emoji {
+    font-size: 10px;
+  }
+}
