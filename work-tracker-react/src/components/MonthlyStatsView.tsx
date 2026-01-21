@@ -9,12 +9,12 @@ interface MonthlyStatsViewProps {
 export function MonthlyStatsView({ stats, threeMonthStats }: MonthlyStatsViewProps) {
     const getOfficePercentage = (s: MonthlyStats) => {
         if (s.totalWorkDays === 0) return 0;
-        return Math.round((s.officeDays / s.totalWorkDays) * 100);
+        return Number(((s.officeDays / s.totalWorkDays) * 100).toFixed(2));
     };
 
     const getRemotePercentage = (s: MonthlyStats) => {
         if (s.totalWorkDays === 0) return 0;
-        return Math.round((s.remoteDays / s.totalWorkDays) * 100);
+        return Number(((s.remoteDays / s.totalWorkDays) * 100).toFixed(2));
     };
 
     const shouldWarnOffice = (percentage: number) => percentage < 60;
@@ -23,7 +23,7 @@ export function MonthlyStatsView({ stats, threeMonthStats }: MonthlyStatsViewPro
     const renderStatsCard = (title: string, s: MonthlyStats) => {
         const officePercentage = getOfficePercentage(s);
         const remotePercentage = getRemotePercentage(s);
-        const avgOfficePerWeek = Math.round(s.averageOfficeDaysPerWeek);
+        const avgOfficePerWeek = Number(s.averageOfficeDaysPerWeek.toFixed(2));
 
         return (
             <div className="stats-card">

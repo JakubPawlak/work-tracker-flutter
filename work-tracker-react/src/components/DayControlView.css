@@ -1,9 +1,9 @@
 .day-control {
     margin: 20px 0;
     padding: 20px;
-    background: white;
+    background: var(--bg-card);
     border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 12px var(--shadow-color);
 }
 
 .day-control-date {
@@ -11,7 +11,7 @@
     font-weight: 600;
     margin: 0 0 16px 0;
     text-align: center;
-    color: #333;
+    color: var(--text-primary);
     text-transform: capitalize;
 }
 
@@ -27,7 +27,7 @@
 
 .weekend-info {
     background: rgba(158, 158, 158, 0.15);
-    color: #666;
+    color: var(--text-secondary);
 }
 
 .holiday-info {
@@ -52,20 +52,20 @@
     align-items: center;
     justify-content: center;
     padding: 16px 12px;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--border-color);
     border-radius: 10px;
-    background: white;
+    background: var(--bg-card);
     cursor: pointer;
     transition: all 0.2s ease;
     font-size: 14px;
     font-weight: 500;
-    color: #666;
+    color: var(--text-secondary);
 }
 
 .day-control-button:hover {
     border-color: #bbb;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px var(--shadow-color);
 }
 
 .button-emoji {
@@ -91,18 +91,17 @@
     background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 400px) {
     .day-control-buttons {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
     }
 
     .day-control-button {
-        flex-direction: row;
-        justify-content: flex-start;
+        padding: 12px 8px;
     }
 
     .button-emoji {
-        margin-bottom: 0;
-        margin-right: 12px;
+        font-size: 20px;
     }
 }

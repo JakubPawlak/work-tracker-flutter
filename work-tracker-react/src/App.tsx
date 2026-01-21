@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { format, isSameDay } from 'date-fns';
+import { format } from 'date-fns';
 import { pl } from 'date-fns/locale';
 import { useWorkData } from './hooks/useWorkData';
 import { useAuth } from './hooks/useAuth';
 import { CalendarView } from './components/CalendarView';
-import { TodayPromptView } from './components/TodayPromptView';
+
 import { DayControlView } from './components/DayControlView';
 import { MonthlyStatsView } from './components/MonthlyStatsView';
 import { SettingsView } from './components/SettingsView';
@@ -57,10 +57,8 @@ function App() {
         return <AuthView />;
     }
 
-    const isToday = isSameDay(selectedDate, new Date());
     const isSelectedWeekend = isWeekend(selectedDate);
     const isSelectedHoliday = isHoliday(selectedDate);
-    const isWorkday = !isSelectedWeekend && !isSelectedHoliday;
 
     const monthYearString = format(currentMonth, 'LLLL yyyy', { locale: pl });
     const capitalizedMonth = monthYearString.charAt(0).toUpperCase() + monthYearString.slice(1);
@@ -108,19 +106,13 @@ function App() {
                     />
                 )}
 
-                {isToday && isWorkday && (
-                    <TodayPromptView onSelectWorkType={handleSelectWorkType} />
-                )}
-
-                {(!isToday || !isWorkday) && (
-                    <DayControlView
-                        date={selectedDate}
-                        workType={getWorkType(selectedDate)}
-                        isWeekend={isSelectedWeekend}
-                        isHoliday={isSelectedHoliday}
-                        onSelectWorkType={handleSelectWorkType}
-                    />
-                )}
+                <DayControlView
+                    date={selectedDate}
+                    workType={getWorkType(selectedDate)}
+                    isWeekend={isSelectedWeekend}
+                    isHoliday={isSelectedHoliday}
+                    onSelectWorkType={handleSelectWorkType}
+                />
 
                 <MonthlyStatsView
                     stats={monthlyStats}

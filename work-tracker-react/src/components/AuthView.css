@@ -3,36 +3,31 @@
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: var(--bg-app);
     padding: 20px;
 }
 
 .auth-card {
-    background: white;
+    background: var(--bg-card);
     padding: 40px;
     border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 40px var(--shadow-color);
     width: 100%;
     max-width: 400px;
     text-align: center;
     animation: slideUp 0.5s ease;
 }
 
-.auth-icon {
-    font-size: 64px;
-    margin-bottom: 20px;
-}
-
 .auth-title {
     font-size: 32px;
     font-weight: 800;
     margin: 0 0 10px 0;
-    color: #333;
+    color: var(--text-primary);
 }
 
 .auth-subtitle {
     font-size: 16px;
-    color: #666;
+    color: var(--text-secondary);
     margin: 0 0 30px 0;
     line-height: 1.5;
 }
@@ -43,41 +38,21 @@
     justify-content: center;
     width: 100%;
     padding: 12px;
-    background: white;
-    border: 1px solid #ddd;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     font-size: 16px;
     font-weight: 600;
-    color: #444;
+    color: var(--text-primary);
     cursor: pointer;
     transition: all 0.2s ease;
     margin-bottom: 30px;
 }
 
 .google-signin-button:hover:not(:disabled) {
-    background: #f8f9fa;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    border-color: #ccc;
-}
-
-.google-signin-button:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-}
-
-.google-icon {
-    width: 24px;
-    height: 24px;
-    margin-right: 12px;
-}
-
-.auth-error {
-    background: #ffebee;
-    color: #c62828;
-    padding: 12px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    font-size: 14px;
+    background: var(--hover-bg);
+    box-shadow: 0 2px 8px var(--shadow-color);
+    border-color: var(--border-color);
 }
 
 .auth-features {
@@ -85,7 +60,7 @@
     flex-direction: column;
     gap: 16px;
     text-align: left;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--border-color);
     padding-top: 30px;
 }
 
@@ -93,7 +68,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    color: #555;
+    color: var(--text-secondary);
     font-size: 14px;
 }
 
