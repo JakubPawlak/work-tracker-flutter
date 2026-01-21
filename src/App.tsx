@@ -78,7 +78,7 @@ function App() {
                         )}
                     </div>
                 </button>
-                <h1 className="app-title">Be selfish</h1>
+                <h1 className="app-title">Shiftly</h1>
                 <button className="today-button" onClick={handleToday}>
                     Dzisiaj
                 </button>

@@ -9,8 +9,8 @@ export default defineConfig({
             registerType: 'autoUpdate',
             includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
             manifest: {
-                name: 'Days Gone - Work Tracker',
-                short_name: 'Days Gone',
+                name: 'Shiftly - Work Tracker',
+                short_name: 'Shiftly',
                 description: 'Track your work location: office, remote, or day off',
                 theme_color: '#2196F3',
                 background_color: '#ffffff',

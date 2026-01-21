@@ -55,6 +55,12 @@
     border-color: var(--border-color);
 }
 
+.google-signin-button .google-icon {
+    height: 32px;
+    width: 32px;
+    margin-right: 12px;
+}
+
 .auth-features {
     display: flex;
     flex-direction: column;

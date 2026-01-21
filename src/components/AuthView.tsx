@@ -9,7 +9,7 @@ export function AuthView() {
             <div className="auth-card">
                 <div className="auth-header">
                     <div className="auth-icon">🏢</div>
-                    <h1 className="auth-title">Days Gone</h1>
+                    <h1 className="auth-title">Shiftly</h1>
                     <p className="auth-subtitle">Track your work location simply and effectively</p>
                 </div>
 

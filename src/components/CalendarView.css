@@ -31,8 +31,9 @@
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
-  justify-content: center;
+  position: relative;
   transition: all 0.2s ease;
   padding: 4px;
 }
@@ -40,6 +41,7 @@
 .day-cell:hover {
   transform: scale(1.05);
   box-shadow: 0 2px 8px var(--shadow-color);
+  z-index: 10;
 }
 
 .day-cell-empty {
@@ -47,13 +49,19 @@
 }
 
 .day-number {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: normal;
+  color: var(--text-primary);
+  margin-top: 2px;
 }
 
 .day-emoji {
-  font-size: 12px;
-  margin-top: 2px;
+  font-size: 24px;
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  line-height: 1;
 }
 
 /* Background colors */
