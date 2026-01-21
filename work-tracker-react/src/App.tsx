@@ -2,21 +2,30 @@ import { useState } from 'react';
 import { format, isSameDay } from 'date-fns';
 import { pl } from 'date-fns/locale';
 import { useWorkData } from './hooks/useWorkData';
+import { useAuth } from './hooks/useAuth';
 import { CalendarView } from './components/CalendarView';
 import { TodayPromptView } from './components/TodayPromptView';
 import { DayControlView } from './components/DayControlView';
 import { MonthlyStatsView } from './components/MonthlyStatsView';
 import { SettingsView } from './components/SettingsView';
+import { AuthView } from './components/AuthView';
 import { WorkType } from './types/models';
 import { isHoliday, isWeekend } from './utils/polishHolidays';
 import './App.css';
 
 function App() {
+    const { user, loading: authLoading } = useAuth();
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [showSettings, setShowSettings] = useState(false);
 
-    const { getWorkType, setWorkType, getMonthlyStats, getThreeMonthStats } = useWorkData();
+    const {
+        getWorkType,
+        setWorkType,
+        getMonthlyStats,
+        getThreeMonthStats,
+        loading: dataLoading
+    } = useWorkData(user?.uid);
 
     const handlePreviousMonth = () => {
         setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1));
@@ -36,6 +45,18 @@ function App() {
         setWorkType(selectedDate, type);
     };
 
+    if (authLoading) {
+        return (
+            <div className="loading-screen">
+                <div className="spinner"></div>
+            </div>
+        );
+    }
+
+    if (!user) {
+        return <AuthView />;
+    }
+
     const isToday = isSameDay(selectedDate, new Date());
     const isSelectedWeekend = isWeekend(selectedDate);
     const isSelectedHoliday = isHoliday(selectedDate);
@@ -51,7 +72,13 @@ function App() {
         <div className="app">
             <header className="app-header">
                 <button className="settings-icon" onClick={() => setShowSettings(true)}>
-                    ⚙️
+                    <div className="user-avatar">
+                        {user.photoURL ? (
+                            <img src={user.photoURL} alt={user.displayName || 'User'} />
+                        ) : (
+                            <span className="user-initial">{user.email?.charAt(0).toUpperCase()}</span>
+                        )}
+                    </div>
                 </button>
                 <h1 className="app-title">Be selfish</h1>
                 <button className="today-button" onClick={handleToday}>
@@ -70,12 +97,16 @@ function App() {
                     </button>
                 </div>
 
-                <CalendarView
-                    selectedDate={selectedDate}
-                    currentMonth={currentMonth}
-                    onDateSelected={setSelectedDate}
-                    getWorkType={getWorkType}
-                />
+                {dataLoading ? (
+                    <div className="calendar-loading">Loading data...</div>
+                ) : (
+                    <CalendarView
+                        selectedDate={selectedDate}
+                        currentMonth={currentMonth}
+                        onDateSelected={setSelectedDate}
+                        getWorkType={getWorkType}
+                    />
+                )}
 
                 {isToday && isWorkday && (
                     <TodayPromptView onSelectWorkType={handleSelectWorkType} />

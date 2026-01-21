@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useAuth } from '../hooks/useAuth';
 import { useNotifications } from '../hooks/useNotifications';
 import './SettingsView.css';
 
@@ -7,77 +7,101 @@ interface SettingsViewProps {
 }
 
 export function SettingsView({ onClose }: SettingsViewProps) {
-    const { settings, setNotificationsEnabled, setNotificationTime } = useNotifications();
-    const [hour, setHour] = useState(settings.hour);
-    const [minute, setMinute] = useState(settings.minute);
+    const { user, signOut } = useAuth();
+    const {
+        settings,
+        permission,
+        setNotificationsEnabled,
+        setNotificationTime,
+        requestPermission
+    } = useNotifications();
 
-    const handleToggle = async () => {
-        await setNotificationsEnabled(!settings.enabled);
+    const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const [hours, minutes] = e.target.value.split(':').map(Number);
+        setNotificationTime(hours, minutes);
     };
 
-    const handleSave = () => {
-        setNotificationTime(hour, minute);
-        onClose();
+    const handleToggleNotifications = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.checked && permission !== 'granted') {
+            const granted = await requestPermission();
+            if (!granted) return;
+        }
+        setNotificationsEnabled(e.target.checked);
     };
+
+    const timeString = `${settings.hour.toString().padStart(2, '0')}:${settings.minute.toString().padStart(2, '0')}`;
 
     return (
-        <div className="settings-overlay">
-            <div className="settings-container">
+        <div className="settings-overlay" onClick={onClose}>
+            <div className="settings-card" onClick={e => e.stopPropagation()}>
                 <div className="settings-header">
-                    <button className="back-button" onClick={onClose}>
-                        ← Wróć
-                    </button>
-                    <h2 className="settings-title">Ustawienia</h2>
+                    <h2>Ustawienia</h2>
+                    <button className="close-button" onClick={onClose}>×</button>
                 </div>
 
-                <div className="settings-content">
-                    <div className="setting-item">
-                        <div className="setting-label">
-                            <span className="setting-icon">🔔</span>
-                            <span>Włącz codzienne przypomnienia</span>
+                <div className="settings-section">
+                    <h3>Konto</h3>
+                    <div className="account-info">
+                        <div className="user-profile">
+                            {user?.photoURL ? (
+                                <img src={user.photoURL} alt="Profile" className="settings-avatar" />
+                            ) : (
+                                <div className="settings-avatar-placeholder">
+                                    {user?.email?.charAt(0).toUpperCase()}
+                                </div>
+                            )}
+                            <div className="user-details">
+                                <div className="user-name">{user?.displayName || 'Użytkownik'}</div>
+                                <div className="user-email">{user?.email}</div>
+                            </div>
                         </div>
-                        <label className="toggle-switch">
+                        <button className="sign-out-button" onClick={() => {
+                            signOut();
+                            onClose();
+                        }}>
+                            Wyloguj się
+                        </button>
+                    </div>
+                </div>
+
+                <div className="settings-section">
+                    <h3>Powiadomienia</h3>
+
+                    <div className="setting-row">
+                        <div className="setting-label">
+                            <span>Włącz powiadomienia</span>
+                            {permission === 'denied' && (
+                                <span className="permission-warning">
+                                    (Zablokowane w ustawieniach przeglądarki)
+                                </span>
+                            )}
+                        </div>
+                        <label className="switch">
                             <input
                                 type="checkbox"
                                 checked={settings.enabled}
-                                onChange={handleToggle}
+                                onChange={handleToggleNotifications}
+                                disabled={permission === 'denied'}
                             />
-                            <span className="toggle-slider"></span>
+                            <span className="slider round"></span>
                         </label>
                     </div>
 
-                    {settings.enabled && (
-                        <div className="setting-item">
-                            <div className="setting-label">
-                                <span className="setting-icon">⏰</span>
-                                <span>Godzina przypomnienia</span>
-                            </div>
-                            <div className="time-picker">
-                                <input
-                                    type="number"
-                                    min="0"
-                                    max="23"
-                                    value={hour}
-                                    onChange={(e) => setHour(parseInt(e.target.value))}
-                                    className="time-input"
-                                />
-                                <span className="time-separator">:</span>
-                                <input
-                                    type="number"
-                                    min="0"
-                                    max="59"
-                                    value={minute}
-                                    onChange={(e) => setMinute(parseInt(e.target.value))}
-                                    className="time-input"
-                                />
-                            </div>
-                        </div>
-                    )}
+                    <div className="setting-row">
+                        <span>Czas przypomnienia</span>
+                        <input
+                            type="time"
+                            value={timeString}
+                            onChange={handleTimeChange}
+                            disabled={!settings.enabled}
+                            className="time-picker"
+                        />
+                    </div>
                 </div>
 
-                <button className="save-button" onClick={handleSave}>
-                    Gotowe
-                </button>
+                <div className="settings-footer">
+                    <p>Dla pewności działania na iOS, dodaj aplikację do ekranu głównego.</p>
+                </div>
             </div>
         </div>
     );

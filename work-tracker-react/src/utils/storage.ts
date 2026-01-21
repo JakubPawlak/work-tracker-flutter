@@ -1,44 +1,57 @@
-import { WorkDay, NotificationSettings } from '../types/models';
+import { NotificationSettings } from '../types/models';
 
-const WORK_DAYS_KEY = 'workDays';
-const NOTIFICATION_SETTINGS_KEY = 'notificationSettings';
+const NOTIFICATIONS_KEY = 'notifications';
 
-export function saveWorkDays(workDays: Record<string, WorkDay>): void {
+// localStorage wrapper for WorkDay (Legacy - now utilizing Firestore)
+/* 
+export const saveWorkDays = (workDays: Record<string, WorkDay>): void => {
     try {
-        localStorage.setItem(WORK_DAYS_KEY, JSON.stringify(workDays));
-    } catch (error) {
-        console.error('Failed to save work days:', error);
+        const json = JSON.stringify(workDays);
+        localStorage.setItem(WORK_DAYS_KEY, json);
+    } catch (e) {
+        console.error('Failed to save work days', e);
     }
-}
+};
 
-export function loadWorkDays(): Record<string, WorkDay> {
+export const loadWorkDays = (): Record<string, WorkDay> => {
     try {
-        const data = localStorage.getItem(WORK_DAYS_KEY);
-        if (!data) return {};
-        return JSON.parse(data);
-    } catch (error) {
-        console.error('Failed to load work days:', error);
+        const json = localStorage.getItem(WORK_DAYS_KEY);
+        if (!json) return {};
+        return JSON.parse(json);
+    } catch (e) {
+        console.error('Failed to load work days', e);
         return {};
     }
-}
+};
+*/
 
-export function saveNotificationSettings(settings: NotificationSettings): void {
+// localStorage wrapper for NotificationSettings
+export const saveNotificationSettings = (settings: NotificationSettings): void => {
     try {
-        localStorage.setItem(NOTIFICATION_SETTINGS_KEY, JSON.stringify(settings));
-    } catch (error) {
-        console.error('Failed to save notification settings:', error);
+        const json = JSON.stringify(settings);
+        localStorage.setItem(NOTIFICATIONS_KEY, json);
+    } catch (e) {
+        console.error('Failed to save notification settings', e);
     }
-}
+};
 
-export function loadNotificationSettings(): NotificationSettings {
+export const loadNotificationSettings = (): NotificationSettings => {
     try {
-        const data = localStorage.getItem(NOTIFICATION_SETTINGS_KEY);
-        if (!data) {
-            return { enabled: false, hour: 18, minute: 0 };
+        const json = localStorage.getItem(NOTIFICATIONS_KEY);
+        if (!json) {
+            return {
+                enabled: false,
+                hour: 18,
+                minute: 0
+            };
         }
-        return JSON.parse(data);
-    } catch (error) {
-        console.error('Failed to load notification settings:', error);
-        return { enabled: false, hour: 18, minute: 0 };
+        return JSON.parse(json);
+    } catch (e) {
+        console.error('Failed to load notification settings', e);
+        return {
+            enabled: false,
+            hour: 18,
+            minute: 0
+        };
     }
-}
+};

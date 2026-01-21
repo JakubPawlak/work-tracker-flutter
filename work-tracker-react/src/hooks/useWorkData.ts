@@ -1,35 +1,68 @@
 import { useState, useEffect, useCallback } from 'react';
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, getWeek } from 'date-fns';
+import { collection, doc, onSnapshot, setDoc, query } from 'firebase/firestore';
+import { db } from '../config/firebase';
 import { WorkDay, WorkType, MonthlyStats } from '../types/models';
-import { saveWorkDays, loadWorkDays } from '../utils/storage';
 import { isHoliday, isWeekend } from '../utils/polishHolidays';
 
-export function useWorkData() {
+export function useWorkData(userId: string | undefined) {
     const [workDays, setWorkDays] = useState<Record<string, WorkDay>>({});
+    const [loading, setLoading] = useState(true);
 
+    // Real-time sync with Firestore
     useEffect(() => {
-        const loaded = loadWorkDays();
-        setWorkDays(loaded);
-    }, []);
+        if (!userId) {
+            setLoading(false);
+            return;
+        }
+
+        setLoading(true);
+        const q = query(collection(db, 'users', userId, 'workDays'));
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const data: Record<string, WorkDay> = {};
+            snapshot.forEach((doc) => {
+                data[doc.id] = doc.data() as WorkDay;
+            });
+            setWorkDays(data);
+            setLoading(false);
+        }, (error) => {
+            console.error("Error fetching work days:", error);
+            setLoading(false);
+        });
+
+        return () => unsubscribe();
+    }, [userId]);
 
     const getWorkType = useCallback((date: Date): WorkType => {
         const key = format(date, 'yyyy-MM-dd');
         return workDays[key]?.workType ?? WorkType.NotSet;
     }, [workDays]);
 
-    const setWorkType = useCallback((date: Date, type: WorkType) => {
+    const setWorkType = useCallback(async (date: Date, type: WorkType) => {
+        if (!userId) return;
+
         const key = format(date, 'yyyy-MM-dd');
-        const newWorkDays = {
-            ...workDays,
-            [key]: {
-                id: Date.now().toString(),
-                date: key,
-                workType: type
-            }
+        const workDay: WorkDay = {
+            id: key,
+            date: key,
+            workType: type
         };
-        setWorkDays(newWorkDays);
-        saveWorkDays(newWorkDays);
-    }, [workDays]);
+
+        // Optimistic update
+        setWorkDays(prev => ({
+            ...prev,
+            [key]: workDay
+        }));
+
+        // Firestore update
+        try {
+            await setDoc(doc(db, 'users', userId, 'workDays', key), workDay);
+        } catch (error) {
+            console.error("Error saving work day:", error);
+            // Revert on error (optional, complicates logic significantly for rare case)
+        }
+    }, [userId]);
 
     const getMonthlyStats = useCallback((date: Date): MonthlyStats => {
         const start = startOfMonth(date);
@@ -164,6 +197,7 @@ export function useWorkData() {
         getWorkType,
         setWorkType,
         getMonthlyStats,
-        getThreeMonthStats
+        getThreeMonthStats,
+        loading
     };
 }

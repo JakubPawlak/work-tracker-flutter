@@ -1,5 +1,4 @@
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, startOfWeek } from 'date-fns';
-import { pl } from 'date-fns/locale';
+import { startOfMonth, endOfMonth, eachDayOfInterval, isSameDay } from 'date-fns';
 import { WorkType } from '../types/models';
 import { isHoliday, isWeekend } from '../utils/polishHolidays';
 import './CalendarView.css';
