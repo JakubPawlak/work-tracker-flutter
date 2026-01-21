@@ -1,42 +1,61 @@
-# Work Tracker - React PWA
+# Days Gone - React PWA (Firebase Edition)
 
-A Progressive Web App for tracking your work location: office, remote, or day off.
+A Progressive Web App (PWA) for tracking your work location, now with cross-device sync powered by Firebase!
 
-This project has been migrated from Flutter to React. The React PWA is located in the `work-tracker-react/` directory.
+## Features
+
+- 🔄 **Cross-Device Sync** - Access your data on any device via Google Sign-In
+- 📅 **Monthly Calendar View** - Visual calendar with Polish day names
+- 📊 **Statistics** - Monthly and 3-month work statistics
+- 🔔 **Daily Notifications** - Customizable reminders
+- 💾 **Offline Support** - Works offline and syncs when back online
+- 🇵🇱 **Polish Holidays** - Automatic detection of Polish public holidays
+- 📱 **PWA Ready** - Installable on desktop and mobile
+
+## Firebase Setup
+
+This project requires a Firebase project.
+
+1. Create a project at [console.firebase.google.com](https://console.firebase.google.com)
+2. Enable **Authentication** (Google Sign-In provider)
+3. Enable **Cloud Firestore**
+4. Copy your web app configuration
+5. Update `src/config/firebase.ts` with your config keys
+
+### Security Rules
+
+Deploy these rules to Firestore to secure user data:
+
+```javascript
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId}/workDays/{workDayId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}
+```
 
 ## Quick Start
 
 ```bash
-cd work-tracker-react
+# Install dependencies
 npm install
+
+# Start development server
 npm run dev
 ```
 
-Access the app at: `http://localhost:5173`
+## Work Types
 
-## Documentation
+- 🏢 **Office** (Biuro)
+- 🏠 **Remote** (Zdalnie)
+- 🌴 **Day Off** (Urlop)
 
-See the [React PWA README](work-tracker-react/README.md) for complete documentation.
+## Technology Stack
 
-## Project Structure
-
-```
-work-tracker-react/    # React PWA application
-├── src/              # Source code
-├── public/           # Static assets
-└── README.md         # Full documentation
-```
-
-## Features
-
-- 📅 Monthly calendar view with Polish localization
-- 📊 Monthly and 3-month statistics
-- 🔔 Daily notifications
-- 🇵🇱 Polish holidays support
-- 💾 localStorage persistence
-- 📱 PWA ready (installable)
-- 🌐 Cross-platform
-
----
-
-**Note**: This repository previously contained a Flutter application. The project has been fully migrated to React PWA.
+- **React 18** + **TypeScript**
+- **Firebase** (Auth, Firestore)
+- **Vite** + **PWA Plugin**
+- **date-fns**
