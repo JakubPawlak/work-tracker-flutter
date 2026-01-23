@@ -70,13 +70,13 @@
 
 @media (max-width: 768px) {
   .day-number {
-    font-size: 14px;
-    top: 20%;
+    font-size: 12px;
+    top: 14%;
   }
 
   .day-emoji {
-    font-size: 18px;
-    top: calc(20% + 30px);
+    font-size: 14px;
+    top: 54%;
   }
 }
 
